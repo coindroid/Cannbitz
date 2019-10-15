@@ -291,32 +291,36 @@ public:
 //        consensus.hashGenesisBlock = genesis.GetHash();
 //        assert(consensus.hashGenesisBlock == uint256S("0x000003bb3d784075f6f77997fa8f4abc455ac23e055a0f13b22d643d7d7f13c1"));
 //        assert(genesis.hashMerkleRoot == uint256S("0x61be29d3a529ae26ac6b760468e6ed613a1e86636fb8e4266437d39d64a0cda4"));
-printf("Searching for genesis block...\n");
-        assert(hashGenesisBlock == uint256S("0x00008412c3a4bbf7133c9cfbb8f9041fdd39bc98d1e1527612d10d95ed9b06d1"));
-uint256S hashTarget = uint256S().SetCompact(genesis.nBits);
-        assert(genesis.hashMerkleRoot == uint256S("0xb4bf3c8018489a8af30346984ead81659b1b91f5e7bc856eb7e2c4e3db122f36"));
-uint256S thash;
-while (true)
-{
-    thash = genesis.GetHash();
-    if (thash <= hashTarget)
-        break;
-    if ((genesis.nNonce & 0xFFF) == 0)
-    {
-        printf("nonce %08X: hash = %s (target = %s)\n", genesis.nNonce, thash.ToString().c_str(), hashTarget.ToString().c_str());
-    }
-    ++genesis.nNonce;
-    if (genesis.nNonce == 0)
-    {
-        printf("NONCE WRAPPED, incrementing time\n");
-        ++genesis.nTime;
-    }
-}
-printf("genesis.nTime = %u \n", genesis.nTime);
-printf("genesis.nNonce = %u \n", genesis.nNonce);
-printf("genesis.nVersion = %u \n", genesis.nVersion);
-printf("genesis.GetHash = %s\n", genesis.GetHash().ToString().c_str());
-printf("genesis.hashMerkleRoot = %s \n", genesis.hashMerkleRoot.ToString().c_str());
+
+
+                           printf("Searching for genesis block...\n");
+                            uint256S hashTarget = uint256S().SetCompact(genesis.nBits);
+                            uint256S thash;
+ 
+                            while (true)
+                            {
+                               thash = genesis.GetHash();
+                               if (thash <= hashTarget)
+                                   break;
+                               if ((genesis.nNonce & 0xFFF) == 0)
+                               {
+                                   printf("nonce %08X: hash = %s (target = %s)\n", genesis.nNonce, thash.ToString().c_str(), hashTarget.ToString().c_str());
+                               }
+                               ++genesis.nNonce;
+                               if (genesis.nNonce == 0)
+                               {
+                                   printf("NONCE WRAPPED, incrementing time\n");
+                                   ++genesis.nTime;
+                               }
+                           }
+                           printf("genesis.nTime = %u \n", genesis.nTime);
+                           printf("genesis.nNonce = %u \n", genesis.nNonce);
+                           printf("genesis.nVersion = %u \n", genesis.nVersion);
+                           printf("genesis.nBits = %u \n", genesis.nBits);
+                           printf("genesis.GetHash = %s\n", genesis.GetHash().ToString().c_str()); 
+                           printf("genesis.hashMerkleRoot = %s \n", genesis.hashMerkleRoot.ToString().c_str()); 
+	
+
 
         vSeeds.push_back(CDNSSeedData("dev.cannabitz.io", "dev.cannabitz.io"));
         vSeeds.push_back(CDNSSeedData("node1.cannabitz.io", "node1.cannabitz.io"));

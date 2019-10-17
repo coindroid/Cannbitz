@@ -300,7 +300,7 @@ public:
 		              genesis.nNonce = 0;
 		              while (UintToArith256(genesis.GetHash()) > hashTarget)
 		              {
-							   std::cout << "hashTarget: " << genesis.nNonce << "\n";
+							   std::cout << "hashTarget: " << hash << "\n";
 		                  ++genesis.nNonce;
 		                  if (genesis.nNonce == 0)
 		                  {

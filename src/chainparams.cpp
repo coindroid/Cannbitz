@@ -197,7 +197,7 @@ class CMainParams : public CChainParams {
 public:
     CMainParams() {
         strNetworkID = "main";
-        consensus.nSubsidyHalvingInterval = 9999999; // Note: actual number of blocks per calendar year with DGW v3 is ~200700 (for example 449750 - 249050)
+        consensus.nSubsidyHalvingInterval = 99999999; // Note: actual number of blocks per calendar year with DGW v3 is ~200700 (for example 449750 - 249050)
         consensus.nMasternodePaymentsStartBlock = 1000; // not true, but it's ok as long as it's less then nMasternodePaymentsIncreaseBlock
         consensus.nMasternodePaymentsIncreaseBlock = 158000; // actual historical value
         consensus.nMasternodePaymentsIncreasePeriod = 576*30; // 17280 - actual historical value
@@ -218,9 +218,9 @@ public:
         consensus.BIP34Hash = uint256S("0x000001f35e70f7c5705f64c6c5cc3dea9449e74d5b5c7cf74dad1bcca14a8012");
         consensus.BIP65Height = 300; // 00000000000076d8fcea02ec0963de4abfd01e771fec0863f960c2c64fe6f357
         consensus.BIP66Height = 400; // 00000000000b1fa2dfa312863570e13fae9ca7b5566cb27e55422620b469aefa
-        consensus.DIP0001Height = 9999999;
-        consensus.DIP0003Height = 9999999;
-        consensus.DIP0003EnforcementHeight = 9999999;
+        consensus.DIP0001Height = 99999999;
+        consensus.DIP0003Height = 99999999;
+        consensus.DIP0003EnforcementHeight = 99999999;
         consensus.DIP0003EnforcementHash = uint256S("000000000000002d1734087b4c5afc3133e4e1c3e1a89218f62bcd9bb3d17f81");
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20
         consensus.nPowTargetTimespan = 15 * 60 * 60; //
@@ -293,26 +293,54 @@ public:
 //        assert(genesis.hashMerkleRoot == uint256S("0x61be29d3a529ae26ac6b760468e6ed613a1e86636fb8e4266437d39d64a0cda4"));
 
 
-		  //if (true && (genesis.GetHash() != consensus.hashGenesisBlock)) {
-		  		std::cout << std::string("Calculating main genesis block...\n");
-		              arith_uint256 hashTarget = arith_uint256().SetCompact(genesis.nBits);
-		              uint256 hash;
-		              genesis.nNonce = 0;
-		              while (UintToArith256(genesis.GetHash()) > hashTarget)
-		              {
-							   std::cout << "hashTarget: " << genesis.nNonce << "\n";
-		                  ++genesis.nNonce;
-		                  if (genesis.nNonce == 0)
-		                  {
-		                      ++genesis.nTime;
-		                  }
-		              }
-		              std::cout << "Genesis block found!\n";
-		              std::cout << "nonce: " << genesis.nNonce << "\n";
-		              std::cout << "time: " << genesis.nTime << "\n";
-		              std::cout << "blockhash: " << genesis.GetHash().ToString().c_str() << "\n";
-		              std::cout << "merklehash: " << genesis.hashMerkleRoot.ToString().c_str() << "\n";
-		 //         }
+ /*       printf("Searching for genesis block...\n");
+         uint256S hashTarget = uint256S().SetCompact(genesis.nBits);
+         uint256S thash;
+
+         while (true)
+         {
+            thash = genesis.GetHash();
+            if (thash <= hashTarget)
+                break;
+            if ((genesis.nNonce & 0xFFF) == 0)
+            {
+                printf("nonce %08X: hash = %s (target = %s)\n", genesis.nNonce, thash.ToString().c_str(), hashTarget.ToString().c_str());
+            }
+            ++genesis.nNonce;
+            if (genesis.nNonce == 0)
+            {
+                printf("NONCE WRAPPED, incrementing time\n");
+                ++genesis.nTime;
+            }
+        }
+        printf("genesis.nTime = %u \n", genesis.nTime);
+        printf("genesis.nNonce = %u \n", genesis.nNonce);
+        printf("genesis.nVersion = %u \n", genesis.nVersion);
+        printf("genesis.nBits = %u \n", genesis.nBits);
+        printf("genesis.GetHash = %s\n", genesis.GetHash().ToString().c_str()); 
+        printf("genesis.hashMerkleRoot = %s \n", genesis.hashMerkleRoot.ToString().c_str()); 
+*/
+  //if (true && (genesis.GetHash() != consensus.hashGenesisBlock)) {
+  		std::cout << std::string("Calculating main genesis block...\n");
+              arith_uint256 hashTarget = arith_uint256().SetCompact(genesis.nBits);
+              uint256 hash;
+              genesis.nNonce = 0;
+              while (UintToArith256(genesis.GetHash()) > hashTarget)
+              {
+                 printf("nonce %08X: hash = %s (target = %s)\n", genesis.nNonce, thash.ToString().c_str(), hashTarget.ToString().c_str());
+                  ++genesis.nNonce;
+                  if (genesis.nNonce == 0)
+                  {
+                      ++genesis.nTime;
+							 
+                  }
+              }
+              std::cout << "Genesis block found!\n";
+              std::cout << "nonce: " << genesis.nNonce << "\n";
+              std::cout << "time: " << genesis.nTime << "\n";
+              std::cout << "blockhash: " << genesis.GetHash().ToString().c_str() << "\n";
+              std::cout << "merklehash: " << genesis.hashMerkleRoot.ToString().c_str() << "\n";
+ //         }
 
 
         vSeeds.push_back(CDNSSeedData("dev.cannabitz.io", "dev.cannabitz.io"));

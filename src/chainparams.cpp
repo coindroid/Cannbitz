@@ -288,12 +288,12 @@ public:
         nPruneAfterHeight = 100000;
 
 
-        genesis = CreateGenesisBlock(1571426618, 46509, 0x1e0ffff0, 1, 50 * COIN);
+        genesis = CreateGenesisBlock(1571426618, 602770, 0x1e0ffff0, 1, 50 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
 
 
         // calculate main genesis block
-        consensus.hashGenesisBlock = uint256S("0x00");
+        //consensus.hashGenesisBlock = uint256S("0x00");
         if (true && (genesis.GetHash() != consensus.hashGenesisBlock)) {
 		std::cout << std::string("Calculating main genesis block...\n");
             arith_uint256 hashTarget = arith_uint256().SetCompact(genesis.nBits);
@@ -314,7 +314,7 @@ public:
             std::cout << "merklehash: " << genesis.hashMerkleRoot.ToString().c_str() << "\n";
         }
 
-        assert(consensus.hashGenesisBlock == uint256S("0x000003bb3d784075f6f77997fa8f4abc455ac23e055a0f13b22d643d7d7f13c1"));
+        assert(consensus.hashGenesisBlock == uint256S("0x00000bad5a7baaa851fdd2507062a1b7f1e27c0580d5874f981dceb5c001371d"));
         assert(genesis.hashMerkleRoot == uint256S("0x61be29d3a529ae26ac6b760468e6ed613a1e86636fb8e4266437d39d64a0cda4"));
 
         vSeeds.push_back(CDNSSeedData("dev.cannabitz.io", "dev.cannabitz.io"));

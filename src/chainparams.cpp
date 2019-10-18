@@ -224,7 +224,7 @@ public:
         consensus.DIP0003EnforcementHash = uint256S("000000000000002d1734087b4c5afc3133e4e1c3e1a89218f62bcd9bb3d17f81");
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20
         consensus.nPowTargetTimespan = 15 * 60 * 60; //
-        consensus.nPowTargetSpacing = 6 * 60; // 
+        consensus.nPowTargetSpacing = 6 * 60; //
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nPowKGWHeight = 500;
@@ -287,39 +287,35 @@ public:
         nDefaultPort = 7811;
         nPruneAfterHeight = 100000;
 
-//        genesis = CreateGenesisBlock(1571136455, 46509, 0x1e0ffff0, 1, 50 * COIN);
-//        consensus.hashGenesisBlock = genesis.GetHash();
-//        assert(consensus.hashGenesisBlock == uint256S("0x000003bb3d784075f6f77997fa8f4abc455ac23e055a0f13b22d643d7d7f13c1"));
-//        assert(genesis.hashMerkleRoot == uint256S("0x61be29d3a529ae26ac6b760468e6ed613a1e86636fb8e4266437d39d64a0cda4"));
+        genesis = CreateGenesisBlock(1571426618, 46509, 0x1e0ffff0, 1, 50 * COIN);
+        consensus.hashGenesisBlock = genesis.GetHash();
 
+        consensus.hashGenesisBlock = genesis.GetHash();
+        // calculate main genesis block
+        //consensus.hashGenesisBlock = uint256S("0x00");
+        if (true && (genesis.GetHash() != consensus.hashGenesisBlock)) {
+		std::cout << std::string("Calculating main genesis block...\n");
+            arith_uint256 hashTarget = arith_uint256().SetCompact(genesis.nBits);
+            uint256 hash;
+            genesis.nNonce = 10000;
+            while (UintToArith256(genesis.GetHash()) > hashTarget)
+            {
+                ++genesis.nNonce;
+                if (genesis.nNonce == 0)
+                {
+                    ++genesis.nTime;
+                }
+            }
+            std::cout << "Genesis block found!\n";
+            std::cout << "nonce: " << genesis.nNonce << "\n";
+            std::cout << "time: " << genesis.nTime << "\n";
+            std::cout << "blockhash: " << genesis.GetHash().ToString().c_str() << "\n";
+            std::cout << "merklehash: " << genesis.hashMerkleRoot.ToString().c_str() << "\n";
+        }
 
-                           printf("Searching for genesis block...\n");
-                            uint256S hashTarget = uint256S().SetCompact(genesis.nBits);
-                            uint256S thash;
- 
-                            while (true)
-                            {
-                               thash = genesis.GetHash();
-                               if (thash <= hashTarget)
-                                   break;
-                               if ((genesis.nNonce & 0xFFF) == 0)
-                               {
-                                   printf("nonce %08X: hash = %s (target = %s)\n", genesis.nNonce, thash.ToString().c_str(), hashTarget.ToString().c_str());
-                               }
-                               ++genesis.nNonce;
-                               if (genesis.nNonce == 0)
-                               {
-                                   printf("NONCE WRAPPED, incrementing time\n");
-                                   ++genesis.nTime;
-                               }
-                           }
-                           printf("genesis.nTime = %u \n", genesis.nTime);
-                           printf("genesis.nNonce = %u \n", genesis.nNonce);
-                           printf("genesis.nVersion = %u \n", genesis.nVersion);
-                           printf("genesis.nBits = %u \n", genesis.nBits);
-                           printf("genesis.GetHash = %s\n", genesis.GetHash().ToString().c_str()); 
-                           printf("genesis.hashMerkleRoot = %s \n", genesis.hashMerkleRoot.ToString().c_str()); 
-	
+        assert(consensus.hashGenesisBlock == uint256S("0x000003bb3d784075f6f77997fa8f4abc455ac23e055a0f13b22d643d7d7f13c1"));
+        assert(genesis.hashMerkleRoot == uint256S("0x61be29d3a529ae26ac6b760468e6ed613a1e86636fb8e4266437d39d64a0cda4"));
+
 
 
         vSeeds.push_back(CDNSSeedData("dev.cannabitz.io", "dev.cannabitz.io"));
@@ -359,7 +355,7 @@ public:
 
         vSporkAddresses = {"Xgtyuk76vhuFW2iT7UAiHgNdWXCf3J34wh"};
         nMinSporkKeys = 1;
-        fBIP9CheckMasternodesUpgraded = true;
+        fBIP9CheckMasternodesUpgraded = false;
 
         checkpointData = (CCheckpointData) {
             boost::assign::map_list_of
